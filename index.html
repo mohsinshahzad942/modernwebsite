@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lumora — Independent Design &amp; Engineering Studio</title>
+<title>Mohsin Shahzad — Independent Design &amp; Engineering Studio</title>
 <meta name="description" content="Lumora is an independent studio crafting brands, products, and the systems that connect them — bold ideas, shipped with quiet precision." />
 <meta name="theme-color" content="#0a0a0a" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68/hero/after.jpg">
+<link rel="preload" as="image" href="assets/hero/portrait.jpg">
 <style>
 /* ================= tokens ================= */
 :root{
@@ -118,7 +118,7 @@ html.lenis,html.lenis body{height:auto}
 /* ================= header ================= */
 .header{ position:absolute; inset-inline:0; top:0; z-index:50; --rv-from:translateY(-14px); --d:150ms }
 .header-in{ display:flex; align-items:center; justify-content:space-between; gap:1.5rem; padding:1.25rem }
-.brand-btn > span{ display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600; letter-spacing:-.01em }
+.brand-btn > span{ white-space:nowrap; display:flex; align-items:center; gap:.5rem; font-size:1.125rem; font-weight:600; letter-spacing:-.01em }
 .brand-btn .ico{ font-size:1.25rem; color:#b15f2c }
 .nav-primary{ display:none }
 .nav-primary ul{ display:flex; gap:2rem; font-size:.875rem; font-weight:500 }
@@ -137,12 +137,16 @@ html.lenis,html.lenis body{height:auto}
 .menu-btn .word{ display:none }
 
 /* ================= hero ================= */
-.hero{ position:relative; isolation:isolate; overflow:hidden; border-radius:0 0 2rem 2rem; background:#c9c9c9 }
+.hero{ position:relative; isolation:isolate; overflow:hidden; border-radius:0 0 2rem 2rem; background:#0c0e13; color:#fff }
 .liquid{ position:absolute; inset:0; z-index:0 }
-.liquid img, .liquid canvas{ position:absolute; inset:0; width:100%; height:100% }
-.liquid img{ object-fit:cover }
+.liquid{ background:linear-gradient(to bottom,#1d2228 0%,#2a3036 25%,#30363c 45%,#1f2328 62%,#0c0e13 80%,#090b0f 100%) }
+.liquid canvas{ position:absolute; inset:0; width:100%; height:100% }
+/* tall portrait: fit to the hero height, centred, edges feathered into the matching backdrop */
+.liquid img{ position:absolute; top:0; left:50%; height:100%; width:auto; max-width:none; transform:translateX(-50%);
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 14%,#000 86%,transparent 100%);
+          mask-image:linear-gradient(to right,transparent 0,#000 14%,#000 86%,transparent 100%) }
 .liquid canvas{ pointer-events:none }
-.hero-vignette{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(to bottom, rgba(255,255,255,.35), transparent, rgba(255,255,255,.35)) }
+.hero-vignette{ position:absolute; inset:0; z-index:1; pointer-events:none; background:linear-gradient(to bottom, rgba(10,10,10,.45), transparent 45%, rgba(10,10,10,.55)) }
 .hero-mark{ pointer-events:none; position:absolute; inset-inline:0; bottom:7rem; z-index:1; text-align:center; user-select:none; -webkit-user-select:none; font-weight:700; line-height:1; font-size:var(--text-watermark); color:rgba(255,255,255,.4);
   --rv-from:translateY(20px); --rv-to:.4; --rv-dur:1.3s; --d:300ms }
 .hero-grid{ position:relative; z-index:20; display:flex; flex-direction:column; gap:2rem; padding:7rem 1.25rem 5rem }
@@ -180,6 +184,26 @@ html.lenis,html.lenis body{height:auto}
   --rv-from:none; --d:900ms }
 .hero-status .mid{ display:none }
 .hero-status .scroll{ display:inline-flex; gap:.5rem }
+
+/* hero sits on a dark portrait: light foreground for the hero + header overlay */
+.header{ color:#fff }
+.nav-primary button > span{ color:#fff }
+.clock-chip{ border-color:rgba(255,255,255,.15); background:rgba(255,255,255,.08); color:rgba(255,255,255,.75) }
+.clock-chip .lbl{ color:rgba(255,255,255,.5) }
+.clock-chip .time{ color:#fff }
+.clock-chip .sep{ color:rgba(255,255,255,.35) }
+.menu-btn{ border-color:rgba(255,255,255,.15); background:rgba(255,255,255,.08) }
+.menu-btn:hover{ background:rgba(255,255,255,.16) }
+.hero .eyebrow{ color:rgba(255,255,255,.75) }
+.hero .eyebrow::before{ background:rgba(255,255,255,.6) }
+.hero-h1{ text-shadow:0 2px 30px rgba(0,0,0,.35) }
+.hero .rating .txt{ color:rgba(255,255,255,.75) }
+.hero .pill--outline .pill-in{ border-color:rgba(255,255,255,.3); color:#fff; background:rgba(255,255,255,.04) }
+.hero .hc-row{ color:#111 }
+.hero .partners-lbl{ color:rgba(255,255,255,.5) }
+.hero .partners li > span{ color:rgba(255,255,255,.75) }
+.hero .partners li .ico{ color:rgba(255,255,255,.45) }
+.hero-status{ border-top-color:rgba(255,255,255,.12) !important; color:rgba(255,255,255,.65) !important }
 
 /* ================= about ================= */
 .about{ background:#fff }
@@ -426,8 +450,8 @@ html.lenis,html.lenis body{height:auto}
 <!-- ============ Header ============ -->
 <header class="header rv" data-gate>
   <div class="shell header-in">
-    <button class="brand-btn" data-goto="home" aria-label="Lumora — back to top">
-      <span data-hs="s:1,1.04" data-hs-cfg="320,18"><svg class="ico" aria-hidden="true"><use href="#i-logo"/></svg>Lumora</span>
+    <button class="brand-btn" data-goto="home" aria-label="Mohsin Shahzad — back to top">
+      <span data-hs="s:1,1.04" data-hs-cfg="320,18"><svg class="ico" aria-hidden="true"><use href="#i-logo"/></svg>Mohsin Shahzad</span>
     </button>
     <nav class="nav-primary" aria-label="Primary">
       <ul>
@@ -458,8 +482,7 @@ html.lenis,html.lenis body{height:auto}
   <!-- ============ Hero ============ -->
   <section class="hero" id="home">
     <div class="liquid" id="liquid">
-      <img id="liquidBase" alt="Studio workspace" fetchpriority="high"
-           src="https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68/hero/after.jpg">
+      <img id="liquidBase" alt="Portrait in a dark suit" fetchpriority="high" src="assets/hero/portrait.jpg">
       <canvas id="liquidCanvas" aria-hidden="true"></canvas>
     </div>
     <div class="hero-vignette"></div>
@@ -665,7 +688,7 @@ html.lenis,html.lenis body{height:auto}
 <!-- ============ NavMenu overlay ============ -->
 <div class="navmenu" id="navmenu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <div class="shell nm-top">
-    <div class="nm-brand"><svg class="ico" aria-hidden="true"><use href="#i-logo"/></svg>Lumora</div>
+    <div class="nm-brand"><svg class="ico" aria-hidden="true"><use href="#i-logo"/></svg>Mohsin Shahzad</div>
     <button class="nm-close" id="menuClose"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg>Close</button>
   </div>
   <nav class="shell nm-nav" aria-label="Menu">
@@ -726,8 +749,13 @@ html.lenis,html.lenis body{height:auto}
    Lumora — all page behaviour
    ===================================================================== */
 const ASSET_BASE_URL = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/lumora-e8b711fc68';
-const BEFORE_SRC = `${ASSET_BASE_URL}/hero/after.jpg`;  // always-shown base image (beforeSrc)
-const AFTER_SRC  = `${ASSET_BASE_URL}/hero/before.jpg`; // brush-revealed image (afterSrc)
+// Hero portraits (served from the repo). Base = always shown, reveal = painted on the cursor trail.
+const BEFORE_SRC = 'assets/hero/portrait.jpg';
+const AFTER_SRC  = 'assets/hero/portrait-reveal.jpg';
+// Edge colours sampled from each portrait (top → bottom) so the tall photo blends into a full-bleed hero.
+const BASE_EDGE   = ['#1d2228','#2a3036','#30363c','#1f2328','#0c0e13','#090b0f'];
+const REVEAL_EDGE = ['#bf5203','#de6902','#ea7403','#d76b06','#150704','#090301'];
+const EDGE_FADE = 0.14; // fraction of the photo width that fades into the edge colour on each side
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -1006,10 +1034,21 @@ updateClock(); setInterval(updateClock, 1000);
   function buildCover(){
     cover.width = W; cover.height = H;
     if (!imgReady || !W || !H) return;
-    const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
-    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
-    coverCtx.clearRect(0, 0, W, H);
-    coverCtx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+    // same framing as the base <img>: fit to height, centred, edges feathered into the edge colours
+    const s = H / img.naturalHeight;
+    const dw = img.naturalWidth * s, dh = H, dx = (W - dw) / 2;
+    const bg = coverCtx.createLinearGradient(0, 0, 0, H);
+    REVEAL_EDGE.forEach((c, i) => bg.addColorStop(i / (REVEAL_EDGE.length - 1), c));
+    coverCtx.globalCompositeOperation = 'source-over';
+    coverCtx.fillStyle = bg; coverCtx.fillRect(0, 0, W, H);
+    const tmp = document.createElement('canvas'); tmp.width = Math.ceil(dw); tmp.height = H;
+    const t = tmp.getContext('2d');
+    t.drawImage(img, 0, 0, dw, dh);
+    t.globalCompositeOperation = 'destination-in';
+    const m = t.createLinearGradient(0, 0, dw, 0);
+    m.addColorStop(0, 'rgba(0,0,0,0)'); m.addColorStop(EDGE_FADE, '#000'); m.addColorStop(1 - EDGE_FADE, '#000'); m.addColorStop(1, 'rgba(0,0,0,0)');
+    t.fillStyle = m; t.fillRect(0, 0, dw, dh);
+    coverCtx.drawImage(tmp, dx, 0);
   }
   function measure(){
     rect = container.getBoundingClientRect();

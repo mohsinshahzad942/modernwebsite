@@ -185,6 +185,13 @@ html.lenis,html.lenis body{height:auto}
 .hero-status .mid{ display:none }
 .hero-status .scroll{ display:inline-flex; gap:.5rem }
 
+/* hero watermark: MOHSIN by default, SHAHZAD while the cursor is on the hero */
+.hero-mark{ display:grid; justify-items:center }
+.hero-mark > span{ grid-area:1/1; white-space:nowrap; transition:opacity .6s var(--ease-spring), transform .7s var(--ease-spring) }
+.hero-mark .alt{ opacity:0; transform:translateY(.25em) }
+.hero.revealing .hero-mark .main{ opacity:0; transform:translateY(-.25em) }
+.hero.revealing .hero-mark .alt{ opacity:1; transform:none }
+
 /* hero sits on a dark portrait: light foreground for the hero + header overlay */
 .header{ color:#fff }
 .nav-primary button > span{ color:#fff }
@@ -486,7 +493,7 @@ html.lenis,html.lenis body{height:auto}
       <canvas id="liquidCanvas" aria-hidden="true"></canvas>
     </div>
     <div class="hero-vignette"></div>
-    <div class="hero-mark rv" data-gate aria-hidden="true">LUMORA</div>
+    <div class="hero-mark rv" data-gate aria-hidden="true"><span class="main">MOHSIN</span><span class="alt">SHAHZAD</span></div>
 
     <div class="shell hero-grid">
       <div class="hero-left">
@@ -1012,6 +1019,19 @@ updateClock(); setInterval(updateClock, 1000);
   card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(1); } });
   document.getElementById('hcNext').addEventListener('click', (e) => { e.stopPropagation(); go(1); });
   document.getElementById('hcPrev').addEventListener('click', (e) => { e.stopPropagation(); go(-1); });
+})();
+
+/* ---------- hero watermark swap: MOHSIN → SHAHZAD while the pointer is on the hero ---------- */
+(() => {
+  const hero = document.getElementById('home');
+  const on = () => hero.classList.add('revealing');
+  const off = () => hero.classList.remove('revealing');
+  hero.addEventListener('pointerenter', on);
+  hero.addEventListener('pointermove', on, { passive: true });
+  hero.addEventListener('pointerleave', off);
+  hero.addEventListener('touchstart', on, { passive: true });
+  hero.addEventListener('touchend', () => setTimeout(off, 600), { passive: true });
+  window.addEventListener('blur', off);
 })();
 
 /* ---------- LiquidReveal (cursor brush trail) ---------- */

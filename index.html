@@ -1063,11 +1063,13 @@ updateClock(); setInterval(updateClock, 1000);
   new ResizeObserver(measure).observe(container);
   measure();
 
-  window.addEventListener('pointermove', (e) => {
+  let hold = null; // where the pointer is resting: keep the second photo showing under it
+  function onMove(clientX, clientY){
     if (!imgReady) return;
     rect = container.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * dpr, y = (e.clientY - rect.top) * dpr;
-    if (x < -radius || y < -radius || x > W + radius || y > H + radius){ last = null; return; }
+    const x = (clientX - rect.left) * dpr, y = (clientY - rect.top) * dpr;
+    if (x < -radius || y < -radius || x > W + radius || y > H + radius){ last = null; hold = null; return; }
+    hold = { x, y };
     if (last){
       const dx = x - last.x, dy = y - last.y, dist = Math.hypot(dx, dy);
       const step = Math.max(radius * 0.3, 1);
@@ -1075,7 +1077,17 @@ updateClock(); setInterval(updateClock, 1000);
       for (let i = 1; i <= n; i++) points.push({ x: last.x + dx * (i / n), y: last.y + dy * (i / n) });
     } else points.push({ x, y });
     last = { x, y };
-  }, { passive: true });
+  }
+  window.addEventListener('pointermove', (e) => onMove(e.clientX, e.clientY), { passive: true });
+  window.addEventListener('pointerdown', (e) => onMove(e.clientX, e.clientY), { passive: true });
+  // touch: reveal follows the finger while it's on the hero
+  window.addEventListener('touchstart', (e) => { last = null; const t = e.touches[0]; if (t) onMove(t.clientX, t.clientY); }, { passive: true });
+  window.addEventListener('touchmove', (e) => { const t = e.touches[0]; if (t) onMove(t.clientX, t.clientY); }, { passive: true });
+  window.addEventListener('touchend', () => { hold = null; last = null; }, { passive: true });
+  document.addEventListener('mouseleave', () => { hold = null; last = null; });
+  window.addEventListener('blur', () => { hold = null; last = null; });
+  // scrolling moves the hero under a still cursor: re-check the cursor position
+  window.addEventListener('scroll', () => { hold = null; last = null; }, { passive: true });
 
   function stamp(x, y){
     const c = diam / 2;
@@ -1088,13 +1100,18 @@ updateClock(); setInterval(updateClock, 1000);
     brushCtx.fillStyle = g;
     brushCtx.fillRect(0, 0, diam, diam);
     brushCtx.globalCompositeOperation = 'source-in';
-    brushCtx.drawImage(cover, x - c, y - c, diam, diam, 0, 0, diam, diam);
+    // clamp the source rect to the cover canvas (Safari draws nothing for out-of-bounds sources)
+    const sx = Math.max(0, x - c), sy = Math.max(0, y - c);
+    const ex = Math.min(W, x + c), ey = Math.min(H, y + c);
+    if (ex > sx && ey > sy) brushCtx.drawImage(cover, sx, sy, ex - sx, ey - sy, sx - (x - c), sy - (y - c), ex - sx, ey - sy);
+    else brushCtx.clearRect(0, 0, diam, diam);
     ctx.globalCompositeOperation = 'source-over';
     ctx.drawImage(brush, x - c, y - c);
   }
 
   function tick(){
     requestAnimationFrame(tick);
+    if (!points.length && hold) points.push(hold); // resting cursor keeps revealing
     const drawing = points.length > 0;
     if (drawing) idle = 0;
     else { idle++; if (idle > FADE_FRAMES) return; }
